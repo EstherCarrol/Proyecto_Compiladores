@@ -10,6 +10,7 @@ bin_count=0
 hex_count=0
 oct_count=0
 maya_count=0
+domino_count=0
 
 
 
@@ -34,6 +35,8 @@ def convertir(numero, opcion_salida):
             resultado = convertirRomano(numero)
         elif opcion_salida == "Maya":
             resultado = convertirMaya(numero)
+        elif opcion_salida == "Domino":
+            resultado = convertirDomino(int(numero))
         else:
             print("Opción de salida inválida.")
             return None
@@ -42,8 +45,30 @@ def convertir(numero, opcion_salida):
 
     return resultado
 
-
-
+def convertirDomino(numero):
+    tabla_fichas = {
+        0: "🁣",
+        1: "🁤",
+        2: "🁥",
+        3: "🁦",
+        4: "🁧",
+        5: "🁨",
+        6: "🁩",
+        7: "🁰",
+        8: "🁷",
+        9: "🁾",
+    }
+    
+    if numero < 0:
+        signo = "-"
+        numero = abs(numero)
+    else:
+        signo = ""
+    
+    numeros_str = str(numero)
+    fichas = [tabla_fichas[int(num)] for num in numeros_str]
+    
+    return signo + ' '.join(fichas)
 
 """
 @date: 15/8/2023
@@ -245,7 +270,8 @@ reservadas = {
     'Binario' : 'BINARIO',
     'Octal' : 'OCTAL',
     'Hexadecimal' : 'HEXADECIMAL',
-    'Maya' : 'MAYA'
+    'Maya' : 'MAYA',
+    'Domino' : 'DOMINO'
 }
 
 
@@ -295,7 +321,10 @@ def t_ID(t):
             oct_count+=1   
         elif t.value=="Maya":
             global maya_count
-            maya_count+=1   
+            maya_count+=1  
+        elif t.value=="Domino":
+            global domino_count
+            domino_count+=1   
     except ValueError:
         print("Ha ocurrido un error %d", t.value)
         t.value=0
@@ -381,6 +410,7 @@ print("El token OCTAL aparece %d veces en el archivo de entrada" %oct_count)
 print("El token HEXADECIMAL aparece %d veces en el archivo de entrada" %hex_count)
 print("El token BINARIO aparece %d veces en el archivo de entrada" %bin_count)
 print("El token MAYA aparece %d veces en el archivo de entrada" %maya_count)
+print("El token MAYA aparece %d veces en el archivo de entrada" %domino_count)
 
 
 
@@ -393,7 +423,7 @@ print("El token MAYA aparece %d veces en el archivo de entrada" %maya_count)
 """
 
 def obtenerOperaciones(contenido_archivo):
-    expresion_regular = r'(\d+Romano|\d+Binario|\d+Octal|\d+Hexadecimal|\d+Aleatorio|\d+Maya)'
+    expresion_regular = r'(\d+Romano|\d+Binario|\d+Octal|\d+Hexadecimal|\d+Aleatorio|\d+Maya|\d+Domino)'
     arreglo_operaciones = re.findall(expresion_regular, contenido_archivo)
     return arreglo_operaciones
 
