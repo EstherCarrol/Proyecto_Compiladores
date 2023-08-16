@@ -4,5 +4,5 @@
 50Romano
 525Octal
 10Binario
-26Maya
+11Maya
 525Aleatorio$

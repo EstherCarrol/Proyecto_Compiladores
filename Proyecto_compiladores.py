@@ -52,7 +52,7 @@ def convertir(numero, opcion_salida):
 @return numeroMaya
 """
 def convertirMaya(numero_str):
-    simbolos_maya = ['.', '|', 'o']
+    simbolos_maya = ['•', '𝅛', '⛀ ']  # Unidades, glifos y caracol
     resultado_maya = ""
 
     try:
@@ -72,13 +72,13 @@ def convertirMaya(numero_str):
         else:
             glifos = resto // 5  # Cantidad de glifos '|'
             unidades = resto % 5  # Cantidad de unidades '.'
-            nivel = simbolos_maya[1] * glifos + simbolos_maya[0] * unidades
+            nivel = simbolos_maya[0] * unidades + simbolos_maya[1] * glifos 
             niveles.append(nivel)
         
         numero //= 20
     
     niveles.reverse()  # Invertir la lista para mostrar los niveles de mayor a menor
-    resultado_maya = "\n".join(niveles)  # Unir los niveles con saltos de línea
+    resultado_maya = " ︽ ".join(niveles)  # Unir los niveles con saltos de línea
     
     return resultado_maya
 
