@@ -9,6 +9,7 @@ roman_count=0
 bin_count=0
 hex_count=0
 oct_count=0
+maya_count=0
 
 
 
@@ -31,6 +32,8 @@ def convertir(numero, opcion_salida):
             resultado = hex(int(numero))[2:]
         elif opcion_salida == "Romano":
             resultado = convertirRomano(numero)
+        elif opcion_salida == "Maya":
+            resultado = convertirMaya(numero)
         else:
             print("Opción de salida inválida.")
             return None
@@ -38,6 +41,46 @@ def convertir(numero, opcion_salida):
         print("Has ingresado un valor no válido")
 
     return resultado
+
+
+
+
+"""
+@date: 15/8/2023
+@description: Convierte un numero decimal a un número maya
+@params numero (Numéro en decimal a convertir)
+@return numeroMaya
+"""
+def convertirMaya(numero_str):
+    simbolos_maya = ['.', '|', 'o']
+    resultado_maya = ""
+
+    try:
+        numero = int(numero_str)
+        if numero == 0:
+            return simbolos_maya[2]  # En sistema maya, 0 se representa con un caracol
+    except ValueError:
+        print("Has ingresado un valor no válido")
+        return resultado_maya
+    
+    niveles = []  # Lista para almacenar los niveles
+    
+    while numero > 0:
+        resto = numero % 20
+        if resto == 0:
+            niveles.append(simbolos_maya[2])
+        else:
+            glifos = resto // 5  # Cantidad de glifos '|'
+            unidades = resto % 5  # Cantidad de unidades '.'
+            nivel = simbolos_maya[1] * glifos + simbolos_maya[0] * unidades
+            niveles.append(nivel)
+        
+        numero //= 20
+    
+    niveles.reverse()  # Invertir la lista para mostrar los niveles de mayor a menor
+    resultado_maya = "\n".join(niveles)  # Unir los niveles con saltos de línea
+    
+    return resultado_maya
 
 """
 @date: 11/8/2023
@@ -201,7 +244,8 @@ reservadas = {
     'Romano' : 'ROMANO',
     'Binario' : 'BINARIO',
     'Octal' : 'OCTAL',
-    'Hexadecimal' : 'HEXADECIMAL'
+    'Hexadecimal' : 'HEXADECIMAL',
+    'Maya' : 'MAYA'
 }
 
 
@@ -249,6 +293,9 @@ def t_ID(t):
         elif t.value=="Octal":
             global oct_count
             oct_count+=1   
+        elif t.value=="Maya":
+            global maya_count
+            maya_count+=1   
     except ValueError:
         print("Ha ocurrido un error %d", t.value)
         t.value=0
@@ -333,6 +380,7 @@ print("El token ROMANO aparece %d veces en el archivo de entrada" %roman_count)
 print("El token OCTAL aparece %d veces en el archivo de entrada" %oct_count)
 print("El token HEXADECIMAL aparece %d veces en el archivo de entrada" %hex_count)
 print("El token BINARIO aparece %d veces en el archivo de entrada" %bin_count)
+print("El token MAYA aparece %d veces en el archivo de entrada" %maya_count)
 
 
 
@@ -345,7 +393,7 @@ print("El token BINARIO aparece %d veces en el archivo de entrada" %bin_count)
 """
 
 def obtenerOperaciones(contenido_archivo):
-    expresion_regular = r'(\d+Romano|\d+Binario|\d+Octal|\d+Hexadecimal|\d+Aleatorio)'
+    expresion_regular = r'(\d+Romano|\d+Binario|\d+Octal|\d+Hexadecimal|\d+Aleatorio|\d+Maya)'
     arreglo_operaciones = re.findall(expresion_regular, contenido_archivo)
     return arreglo_operaciones
 
