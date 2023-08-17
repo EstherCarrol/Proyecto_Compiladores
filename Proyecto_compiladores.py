@@ -401,6 +401,8 @@ tabla = tabulate(datos,encabezados, tablefmt="grid")
 
 print(tabla)
 
+tabla_lexica=[encabezados]+datos
+
 print("\n"*2)
 print("*"*40)
 print("Información secundaria")
