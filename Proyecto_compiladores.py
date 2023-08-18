@@ -1,6 +1,7 @@
 import re
 import ply.lex as lex
 from tabulate import tabulate
+import ply.yacc as yacc
 
 #Se contará cuaántas veces aparece un Token especifico en la entrada
 #Contadores
