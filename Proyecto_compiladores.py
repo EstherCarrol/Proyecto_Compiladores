@@ -109,7 +109,7 @@ def convertirMaya(numero_str):
         numero //= 20
     
     niveles.reverse()  # Invertir la lista para mostrar los niveles de mayor a menor
-    resultado_maya = " ︽ ".join(niveles)  # Unir los niveles con saltos de línea
+    resultado_maya = "  ".join(niveles)  # Unir los niveles con saltos de línea
     
     return resultado_maya
 
