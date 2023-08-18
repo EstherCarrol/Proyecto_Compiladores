@@ -1,11 +1,37 @@
-525Romano
+DATOS DE ENTRADA:
+
+523Romano
 525Hexadecimal
-50Romano
+505Romano
 525Octal
-10Binario
-12Maya
-25Domino
+15Binario
+4Maya
+2529Domino
 525Aleatorio
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
