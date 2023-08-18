@@ -45,6 +45,12 @@ def convertir(numero, opcion_salida):
 
     return resultado
 
+"""
+@date: 16/8/2023
+@description: Convierte un numero decimal a una representación gráfica de fichas de domino
+@params numero (Numéro en decimal a convertir)
+@return representación en fricas de dominó
+"""
 def convertirDomino(numero):
     tabla_fichas = {
         0: "🁣",
@@ -413,7 +419,7 @@ print("El token OCTAL aparece %d veces en el archivo de entrada" %oct_count)
 print("El token HEXADECIMAL aparece %d veces en el archivo de entrada" %hex_count)
 print("El token BINARIO aparece %d veces en el archivo de entrada" %bin_count)
 print("El token MAYA aparece %d veces en el archivo de entrada" %maya_count)
-print("El token MAYA aparece %d veces en el archivo de entrada" %domino_count)
+print("El token DOMINO aparece %d veces en el archivo de entrada" %domino_count)
 
 
 
