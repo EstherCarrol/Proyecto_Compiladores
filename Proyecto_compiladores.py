@@ -463,34 +463,6 @@ print(resultado_arreglo_operaciones)
 
 
 """
-@description: Procesa el arreglo_operaciones para generar una salida
-@date: 15/8/2023
-@params: arreglo_operaciones
-"""
-def realizarConversiones(arreglo):
-    resultados=[]
-    for elemento in arreglo:
-        match = re.match(r'(\d+)(\w+)', elemento)
-        if match:
-            numero = match.group(1)
-            conversion = match.group(2)
-            resultado=convertir(numero, conversion)
-        else:
-            resultado="Operación desconocida"
-        resultados.append(resultado)
-    return resultados
-
-
-#Resultados de conversión
-print("\n"*2)
-print("*"*40)
-print("Resultados de la conversión")
-print("*"*40)
-resultados_conversion=realizarConversiones(resultado_arreglo_operaciones)
-print(resultados_conversion)
-
-
-"""
 @description: Selecciona de forma aleatoria el sistema destino al cual va a convertir. 
 @date: 17/8/2023
 @params: numero
@@ -505,14 +477,37 @@ def convertir_aleatoriamente(numero):
     resultado = convertir(numero, sistema_aleatorio)
     return resultado
 
-#Prueba de Conversion aleatoria
-numero_prueba = "720"
-resultado_aleatorio = convertir_aleatoriamente(numero_prueba)
+
+"""
+@description: Procesa el arreglo_operaciones para generar una salida
+@date: 15/8/2023
+@params: arreglo_operaciones
+"""
+def realizarConversiones(arreglo):
+    resultados=[]
+    for elemento in arreglo:
+        match = re.match(r'(\d+)(\w+)', elemento)
+        if match:
+            numero = match.group(1)
+            conversion = match.group(2)
+            if conversion == "Aleatorio":
+                resultado = convertir_aleatoriamente(numero)
+            else:
+                resultado=convertir(numero, conversion)
+        else:
+            resultado="Operación desconocida"
+        resultados.append(resultado)
+    return resultados
+
+
+#Resultados de conversión
 print("\n"*2)
 print("*"*40)
-print("Sistema Destino de Conversión")
+print("Resultados de la conversión")
 print("*"*40)
-print(f"Resultado de conversión aleatoria para {numero_prueba}: \n{resultado_aleatorio}\n")
+resultados_conversion=realizarConversiones(resultado_arreglo_operaciones)
+print(resultados_conversion)
+print("\n")
 
 
 """
