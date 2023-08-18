@@ -8,6 +8,7 @@ from Proyecto_compiladores import tabla_lexica
 from Proyecto_compiladores import num_count, roman_count, oct_count, hex_count, bin_count, maya_count, domino_count
 
 
+
 current_file = None
 tabla = [
     ["Tipo de Token", "Valor", "Número de línea"],
