@@ -508,3 +508,26 @@ print("*"*40)
 print(f"Resultado de conversión aleatoria para {numero_prueba}: \n{resultado_aleatorio}\n")
 
 
+"""
+@description: Código que genera un archivo 
+parser usando las reglas
+@date: 17/8/2023
+"""
+
+# Declaración de la gramática para el análisis sintáctico
+def p_conversion(p):
+    '''conversion : NUMERO sistema_conversion'''
+    p[0] = (p[1], p[2])  
+    # Almacenamos el número y el sistema de conversión
+
+def p_sistema_conversion(p):
+    '''sistema_conversion : ID'''
+    p[0] = p[1]  
+    # Almacenamos el sistema de conversión
+
+def p_error(p):
+    print("Error de sintaxis en la expresión:", p)
+
+# Construye el analizador sintáctico
+parser = yacc.yacc()
+
