@@ -411,6 +411,7 @@ tabla_lexica=[encabezados]+datos
 print("\n"*2)
 print("*"*40)
 print("Información secundaria")
+print("*"*40)
 print("El token NUMERO aparece %d veces en el archivo de entrada" %num_count)
 print("El token ROMANO aparece %d veces en el archivo de entrada" %roman_count)
 print("El token OCTAL aparece %d veces en el archivo de entrada" %oct_count)
@@ -480,3 +481,30 @@ print("Resultados de la conversión")
 print("*"*40)
 resultados_conversion=realizarConversiones(resultado_arreglo_operaciones)
 print(resultados_conversion)
+
+
+"""
+@description: Selecciona de forma aleatoria el sistema destino al cual va a convertir. 
+@date: 17/8/2023
+@params: numero
+"""
+
+import random
+
+
+def convertir_aleatoriamente(numero):
+    sistemas_conversion = ["Romano", "Binario", "Octal", "Hexadecimal", "Maya", "Domino"]
+    sistema_aleatorio = random.choice(sistemas_conversion)
+    resultado = convertir(numero, sistema_aleatorio)
+    return resultado
+
+#Prueba de Conversion aleatoria
+numero_prueba = "720"
+resultado_aleatorio = convertir_aleatoriamente(numero_prueba)
+print("\n"*2)
+print("*"*40)
+print("Sistema Destino de Conversión")
+print("*"*40)
+print(f"Resultado de conversión aleatoria para {numero_prueba}: \n{resultado_aleatorio}\n")
+
+
