@@ -13,7 +13,6 @@ maya_count=0
 domino_count=0
 
 
-
 """
 @date: 11/8/2023
 @description: Convierte un numero en decimal a otro sistema numérico destino
@@ -407,6 +406,12 @@ tabla = tabulate(datos,encabezados, tablefmt="grid")
 
 print(tabla)
 
+"""
+@agregando porcentaje de distribucion 
+"""
+
+total_tokens = len(datos) - 1 
+
 tabla_lexica=[encabezados]+datos
 
 print("\n"*2)
@@ -421,7 +426,19 @@ print("El token BINARIO aparece %d veces en el archivo de entrada" %bin_count)
 print("El token MAYA aparece %d veces en el archivo de entrada" %maya_count)
 print("El token DOMINO aparece %d veces en el archivo de entrada" %domino_count)
 
+porcentaje_distribucion = {
+    "NUMERO": (num_count / total_tokens) * 100,
+    "ROMANO": (roman_count / total_tokens) * 100,
+    "OCTAL": (oct_count / total_tokens) * 100,
+    "HEXADECIMAL": (hex_count / total_tokens) * 100,
+    "BINARIO": (bin_count / total_tokens) * 100,
+    "MAYA": (maya_count / total_tokens) * 100,
+    "DOMINO": (domino_count / total_tokens) * 100,
+}
 
+print("\nDistribución de porcentajes:")
+for token_type, porcentaje in porcentaje_distribucion.items():
+    print("Porcentaje de %s: %.2f%%" % (token_type, porcentaje))
 
 """
 @description: Obtiene y ordena los datos para realizar las operaciones
@@ -496,4 +513,27 @@ print("Sistema Destino de Conversión")
 print("*"*40)
 print(f"Resultado de conversión aleatoria para {numero_prueba}: \n{resultado_aleatorio}\n")
 
+
+"""
+@description: Código que genera un archivo 
+parser usando las reglas
+@date: 17/8/2023
+"""
+
+# Declaración de la gramática para el análisis sintáctico
+def p_conversion(p):
+    '''conversion : NUMERO sistema_conversion'''
+    p[0] = (p[1], p[2])  
+    # Almacenamos el número y el sistema de conversión
+
+def p_sistema_conversion(p):
+    '''sistema_conversion : ID'''
+    p[0] = p[1]  
+    # Almacenamos el sistema de conversión
+
+def p_error(p):
+    print("Error de sintaxis en la expresión:", p)
+
+# Construye el analizador sintáctico
+parser = yacc.yacc()
 
