@@ -1,9 +1,15 @@
 525Romano
-
 525Hexadecimal
 50Romano
 525Octal
 10Binario
 12Maya
 25Domino
-525Aleatorio$
+525Aleatorio
+
+
+
+
+
+
+
