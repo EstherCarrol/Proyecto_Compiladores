@@ -1,6 +1,7 @@
 import re
 import ply.lex as lex
 from tabulate import tabulate
+import ply.yacc as yacc
 
 #Se contará cuaántas veces aparece un Token especifico en la entrada
 #Contadores
@@ -44,6 +45,12 @@ def convertir(numero, opcion_salida):
 
     return resultado
 
+"""
+@date: 16/8/2023
+@description: Convierte un numero decimal a una representación gráfica de fichas de domino
+@params numero (Numéro en decimal a convertir)
+@return representación en fricas de dominó
+"""
 def convertirDomino(numero):
     tabla_fichas = {
         0: "🁣",
@@ -102,7 +109,7 @@ def convertirMaya(numero_str):
         numero //= 20
     
     niveles.reverse()  # Invertir la lista para mostrar los niveles de mayor a menor
-    resultado_maya = " ︽ ".join(niveles)  # Unir los niveles con saltos de línea
+    resultado_maya = "  ".join(niveles)  # Unir los niveles con saltos de línea
     
     return resultado_maya
 
@@ -418,7 +425,7 @@ print("El token OCTAL aparece %d veces en el archivo de entrada" %oct_count)
 print("El token HEXADECIMAL aparece %d veces en el archivo de entrada" %hex_count)
 print("El token BINARIO aparece %d veces en el archivo de entrada" %bin_count)
 print("El token MAYA aparece %d veces en el archivo de entrada" %maya_count)
-print("El token MAYA aparece %d veces en el archivo de entrada" %domino_count)
+print("El token DOMINO aparece %d veces en el archivo de entrada" %domino_count)
 
 porcentaje_distribucion = {
     "NUMERO": (num_count / total_tokens) * 100,
@@ -456,34 +463,6 @@ print(resultado_arreglo_operaciones)
 
 
 """
-@description: Procesa el arreglo_operaciones para generar una salida
-@date: 15/8/2023
-@params: arreglo_operaciones
-"""
-def realizarConversiones(arreglo):
-    resultados=[]
-    for elemento in arreglo:
-        match = re.match(r'(\d+)(\w+)', elemento)
-        if match:
-            numero = match.group(1)
-            conversion = match.group(2)
-            resultado=convertir(numero, conversion)
-        else:
-            resultado="Operación desconocida"
-        resultados.append(resultado)
-    return resultados
-
-
-#Resultados de conversión
-print("\n"*2)
-print("*"*40)
-print("Resultados de la conversión")
-print("*"*40)
-resultados_conversion=realizarConversiones(resultado_arreglo_operaciones)
-print(resultados_conversion)
-
-
-"""
 @description: Selecciona de forma aleatoria el sistema destino al cual va a convertir. 
 @date: 17/8/2023
 @params: numero
@@ -498,13 +477,59 @@ def convertir_aleatoriamente(numero):
     resultado = convertir(numero, sistema_aleatorio)
     return resultado
 
-#Prueba de Conversion aleatoria
-numero_prueba = "720"
-resultado_aleatorio = convertir_aleatoriamente(numero_prueba)
+
+"""
+@description: Procesa el arreglo_operaciones para generar una salida
+@date: 15/8/2023
+@params: arreglo_operaciones
+"""
+def realizarConversiones(arreglo):
+    resultados=[]
+    for elemento in arreglo:
+        match = re.match(r'(\d+)(\w+)', elemento)
+        if match:
+            numero = match.group(1)
+            conversion = match.group(2)
+            if conversion == "Aleatorio":
+                resultado = convertir_aleatoriamente(numero)
+            else:
+                resultado=convertir(numero, conversion)
+        else:
+            resultado="Operación desconocida"
+        resultados.append(resultado)
+    return resultados
+
+
+#Resultados de conversión
 print("\n"*2)
 print("*"*40)
-print("Sistema Destino de Conversión")
+print("Resultados de la conversión")
 print("*"*40)
-print(f"Resultado de conversión aleatoria para {numero_prueba}: \n{resultado_aleatorio}\n")
+resultados_conversion=realizarConversiones(resultado_arreglo_operaciones)
+print(resultados_conversion)
+print("\n")
 
+
+"""
+@description: Código que genera un archivo 
+parser usando las reglas
+@date: 17/8/2023
+"""
+
+# Declaración de la gramática para el análisis sintáctico
+def p_conversion(p):
+    '''conversion : NUMERO sistema_conversion'''
+    p[0] = (p[1], p[2])  
+    # Almacenamos el número y el sistema de conversión
+
+def p_sistema_conversion(p):
+    '''sistema_conversion : ID'''
+    p[0] = p[1]  
+    # Almacenamos el sistema de conversión
+
+def p_error(p):
+    print("Error de sintaxis en la expresión:", p)
+
+# Construye el analizador sintáctico
+parser = yacc.yacc()
 
