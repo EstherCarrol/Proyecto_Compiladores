@@ -6,7 +6,7 @@ from tkinter import Toplevel
 from tkinter import scrolledtext 
 
 from Proyecto_compiladores import tabla_lexica
-from Proyecto_compiladores import resultado_aleatorio,resultados_conversion,resultado_arreglo_operaciones,num_count, roman_count, oct_count, hex_count, bin_count, maya_count, domino_count
+from Proyecto_compiladores import resultados_conversion,resultado_arreglo_operaciones,num_count, roman_count, oct_count, hex_count, bin_count, maya_count, domino_count
 from Proyecto_compiladores import convertir
 
 
@@ -52,11 +52,8 @@ def mostrar_lexico(data):
     scrollbar.pack(side="right", fill="y")
     tabla.config(yscrollcommand=scrollbar.set)
 
-    ventana_alto = ventana_lexico.winfo_reqheight()
+    ventana_lexico.geometry("+100+100") 
 
-    posicion_y = int((ventana_lexico.winfo_screenheight() / 2) - (ventana_alto / 2))
-    
-    ventana_lexico.geometry(f"{posicion_y}")
 
 def mostrar_about():
     limpiar_canvas()
@@ -165,6 +162,7 @@ def realizarConversiones(arreglo):
         else:
             resultados.append("Operación desconocida")
     return resultados
+
     
 def mostrar_resultados_modal():
     resultados_window = Toplevel(root)
@@ -175,7 +173,7 @@ def mostrar_resultados_modal():
 
     for conversion, resultado in zip(resultado_arreglo_operaciones, resultados_conversion):
         resultados_text.insert(tk.END, f"{conversion}: {resultado} \n ")
-    resultados_text.insert(tk.END,f"{resultado_aleatorio}")
+ 
     resultados_text.config(state=tk.DISABLED)  # Hace que el texto no sea editable
 
     cerrar_button = tk.Button(resultados_window, text="Cerrar", command=resultados_window.destroy)
