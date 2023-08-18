@@ -13,7 +13,6 @@ maya_count=0
 domino_count=0
 
 
-
 """
 @date: 11/8/2023
 @description: Convierte un numero en decimal a otro sistema numérico destino
@@ -401,6 +400,12 @@ tabla = tabulate(datos,encabezados, tablefmt="grid")
 
 print(tabla)
 
+"""
+@agregando porcentaje de distribucion 
+"""
+
+total_tokens = len(datos) - 1 
+
 tabla_lexica=[encabezados]+datos
 
 print("\n"*2)
@@ -414,7 +419,19 @@ print("El token BINARIO aparece %d veces en el archivo de entrada" %bin_count)
 print("El token MAYA aparece %d veces en el archivo de entrada" %maya_count)
 print("El token MAYA aparece %d veces en el archivo de entrada" %domino_count)
 
+porcentaje_distribucion = {
+    "NUMERO": (num_count / total_tokens) * 100,
+    "ROMANO": (roman_count / total_tokens) * 100,
+    "OCTAL": (oct_count / total_tokens) * 100,
+    "HEXADECIMAL": (hex_count / total_tokens) * 100,
+    "BINARIO": (bin_count / total_tokens) * 100,
+    "MAYA": (maya_count / total_tokens) * 100,
+    "DOMINO": (domino_count / total_tokens) * 100,
+}
 
+print("\nDistribución de porcentajes:")
+for token_type, porcentaje in porcentaje_distribucion.items():
+    print("Porcentaje de %s: %.2f%%" % (token_type, porcentaje))
 
 """
 @description: Obtiene y ordena los datos para realizar las operaciones
