@@ -4,10 +4,40 @@ DATOS DE ENTRADA:
 525Hexadecimal
 505Romano
 525Octal
-15Binario
+125Binario
 4Maya
 2529Domino
 525Aleatorio
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

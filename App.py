@@ -6,7 +6,6 @@ import tkinter as tk
 from tkinter import filedialog
 from tkinter import Toplevel
 from tkinter import scrolledtext 
-import random
 from Proyecto_compiladores import obtenerOperaciones
 from Proyecto_compiladores import tabla_lexica
 from Proyecto_compiladores import resultados_conversion,resultado_arreglo_operaciones,num_count, roman_count, oct_count, hex_count, bin_count, maya_count, domino_count
@@ -89,17 +88,27 @@ def mostrar_archivo():
         current_file = archivo
         with open(archivo, "r") as f:
             contenido = f.read()
-            canvas.delete("all")
-            canvas.create_text(10, 10, text=contenido, anchor="nw", fill="black", font=("Arial", 12))
-        
+            # Limpiar el contenido anterior del Canvas
+            canvas.delete("content")
+
+            # Crear un Text widget para mostrar el contenido del archivo
+            texto_contenido = tk.Text(container, wrap=tk.WORD, font=("Arial", 12))
+            texto_contenido.insert('1.0', contenido)  # Insertar el contenido en el Text widget
+            texto_contenido.pack()
+
+            # Actualizar el Canvas para mostrar el nuevo contenido y ajustar el scroll
+            canvas.update_idletasks()
+            canvas.config(scrollregion=canvas.bbox("all"))
     
 
     
  #funcion para edicion de archivo   
 
 def editar_archivo():
-  
+    global current_file
+
     ruta_archivo = filedialog.askopenfilename(filetypes=[("Archivos de Texto", "*.txt")])
+    
     if ruta_archivo:
         with open(ruta_archivo, 'r') as archivo:
             contenido = archivo.read()
@@ -121,17 +130,21 @@ def editar_archivo():
                 global resultado_arreglo_operaciones, resultados_conversion
                 resultado_arreglo_operaciones = obtenerOperaciones(nuevo_contenido)
                 resultados_conversion = realizarConversiones(resultado_arreglo_operaciones)
-                
+
+                # Actualizar el contenido del Canvas
                 limpiar_canvas()
                 canvas.delete("all")
                 canvas.create_text(10, 10, text=nuevo_contenido, anchor="nw", fill="black", font=("Arial", 14))
 
+                # Actualizar la región de desplazamiento
+                canvas.update_idletasks()
+                canvas.config(scrollregion=canvas.bbox("all"))
 
             boton_guardar = tk.Button(ventana_editor, text="Guardar", command=guardar)
             boton_guardar.pack(pady=10)
             
-            ventana_editor.resizable(False,False)
-            ventana_editor.geometry("600x500") 
+            ventana_editor.resizable(False, False)
+            ventana_editor.geometry("600x500")
 
 def limpiar_canvas():
     canvas.delete("all")
@@ -221,16 +234,22 @@ def mostrar_resultados_modal():
 
     resultados_window.geometry("700x500")  
     resultados_window.resizable(False, False)
-    
+
+
+def scroll_canvas(event):
+    canvas.yview_scroll(-1 * (event.delta // 120), "units")
+
 # Crear la ventana principal
 
 root = tk.Tk()
 root.title("Convertidor de números")
 
 
+
+
 icon_path = "ico/icon.png"
 icon = tk.PhotoImage(file=icon_path)
-icon_resized = icon.subsample(20)  # Adjust the subsample factor for desired size
+icon_resized = icon.subsample(20) 
 
 # Colocar icono
 root.iconphoto(True, icon_resized)
@@ -254,21 +273,31 @@ boton_informacion.pack(side="left", padx=5, pady=5)
 boton_mostrar_resultados.pack(side="left", padx=5, pady=5)
 sintactico_button.pack(side="left", padx=5, pady=5)
 
-# Crear canvas con scrollbar
+container = ttk.Frame(root)
+container.pack(fill="both", expand=True)
 
-canvas_frame = tk.Frame(root)
-canvas_frame.pack(side="left", fill="both", expand=True)
 
-canvas_scrollbar = tk.Scrollbar(canvas_frame)
-canvas_scrollbar.pack(side="right", fill="y")
-
-canvas = tk.Canvas(canvas_frame, yscrollcommand=canvas_scrollbar.set)
+canvas = tk.Canvas(container)
 canvas.pack(side="left", fill="both", expand=True)
-canvas_scrollbar.config(command=canvas.yview)
+
+# Agregar barra de desplazamiento vertical
+scrollbar = ttk.Scrollbar(container, orient="vertical", command=canvas.yview)
+scrollbar.pack(side="right", fill="y")
+
+canvas.configure(yscrollcommand=scrollbar.set)
+
+canvas.bind_all("<MouseWheel>", scroll_canvas)
+
+interior = ttk.Frame(canvas)
+canvas.create_window((0, 0), window=interior, anchor="nw")
 
 
-root.geometry("+400+150") 
+# Actualizar el Canvas para mostrar todo el contenido
+interior.update_idletasks()
+canvas.config(scrollregion=canvas.bbox("all"))
+
+
+root.geometry("500x350")
 root.resizable(False, False)
-
 
 root.mainloop()
