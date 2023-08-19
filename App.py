@@ -12,6 +12,7 @@ from Proyecto_compiladores import resultados_conversion,resultado_arreglo_operac
 from Proyecto_compiladores import convertir
 
 
+
 current_file = None
 tabla = [
     ["Tipo de Token", "Valor", "Número de línea"],
